@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shavoraplace - Luxury Perfume E-commerce</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-black: #0F0F0F;
+            --secondary-gold: #D4AF37;
+            --accent-beige: #F5F1E8;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--primary-black);
+            color: var(--accent-beige);
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--accent-beige);
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            z-index: 1000;
+            background: rgba(15, 15, 15, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--secondary-gold);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--accent-beige);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--secondary-gold);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding-top: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(15,15,15,0.8) 0%, rgba(15,15,15,1) 100%);
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out forwards;
+            animation-delay: 0.2s;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s ease-out forwards;
+            animation-delay: 0.4s;
+        }
+
+        /* Products Section */
+        .products-section {
+            padding: 8rem 2rem 4rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+            animation-delay: 0.6s;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: rgba(30, 30, 30, 0.6);
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .product-card.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(212, 175, 55, 0.2);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+        }
+
+        .product-image {
+            height: 250px;
+            width: 100%;
+            background: linear-gradient(45deg, #2c2c2c, #1a1a1a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--secondary-gold);
+            color: var(--primary-black);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-name {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-description {
+            color: rgba(245, 241, 232, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            height: 60px;
+            overflow: hidden;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .current-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--secondary-gold);
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: rgba(245, 241, 232, 0.6);
+            margin-left: 0.5rem;
+        }
+
+        .buy-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--secondary-gold);
+            color: var(--primary-black);
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .buy-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.4),
+                transparent
+            );
+            transition: left 0.7s;
+        }
+
+        .buy-btn:hover::before {
+            left: 100%;
+        }
+
+        .buy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            margin-top: 4rem;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            header {
+                padding: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(212, 175, 55, 0.2);
+            border-top: 4px solid var(--secondary-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Glass Effect */
+        .glass-effect {
+            background: rgba(15, 15, 15, 0.25);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">SHAVORAPLACE</div>
+        <nav>
+            <ul>
+                <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#"><i class="fas fa-shopping-bag"></i> Shop</a></li>
+                <li><a href="#"><i class="fas fa-star"></i> Collections</a></li>
+                <li><a href="./admin/login"><i class="fas fa-lock"></i> Admin</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Luxury Perfumes</h1>
+        <p>Discover our exquisite collection of premium fragrances crafted for the discerning individual.</p>
+        <div class="loading-spinner" style="display:none;"></div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section">
+        <h2 class="section-title">Our Collection</h2>
+        <div class="products-grid">
+            <!-- Product 1 -->
+            <div class="product-card animate" style="animation-delay: 0.1s;">
+                <div class="product-image">
+                    <div style="font-size: 4rem; color: #D4AF37;">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <div class="discount-badge">-25%</div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Royal Oud</h3>
+                    <p class="product-description">Rich and exotic fragrance with precious oud wood and floral notes.</p>
+                    <div class="product-price">
+                        <span class="current-price">$180.00</span>
+                        <span class="original-price">$240.00</span>
+                    </div>
+                    <button class="buy-btn">Buy Now</button>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card animate" style="animation-delay: 0.2s;">
+                <div class="product-image">
+                    <div style="font-size: 4rem; color: #D4AF37;">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="discount-badge">-15%</div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Midnight Jasmine</h3>
+                    <p class="product-description">Enchanting jasmine blend with warm amber and musk notes.</p>
+                    <div class="product-price">
+                        <span class="current-price">$140.00</span>
+                        <span class="original-price">$165.00</span>
+                    </div>
+                    <button class="buy-btn">Buy Now</button>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card animate" style="animation-delay: 0.3s;">
+                <div class="product-image">
+                    <div style="font-size: 4rem; color: #D4AF37;">
+                        <i class="fas fa-wine-bottle"></i>
+                    </div>
+                    <!-- No discount for this product -->
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Ocean Breeze</h3>
+                    <p class="product-description">Fresh marine scent with citrus and woody undertones.</p>
+                    <div class="product-price">
+                        <span class="current-price">$120.00</span>
+                    </div>
+                    <button class="buy-btn">Buy Now</button>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card animate" style="animation-delay: 0.4s;">
+                <div class="product-image">
+                    <div style="font-size: 4rem; color: #D4AF37;">
+                        <i class="fas fa-ring"></i>
+                    </div>
+                    <div class="discount-badge">-30%</div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Velvet Rose</h3>
+                    <p class="product-description">Opulent rose fragrance with vanilla and sandalwood.</p>
+                    <div class="product-price">
+                        <span class="current-price">$165.00</span>
+                        <span class="original-price">$235.00</span>
+                    </div>
+                    <button class="buy-btn">Buy Now</button>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card animate" style="animation-delay: 0.5s;">
+                <div class="product-image">
+                    <div style="font-size: 4rem; color: #D4AF37;">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <div class="discount-badge">-20%</div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Golden Musk</h3>
+                    <p class="product-description">Warm musk with golden saffron and cedar notes.</p>
+                    <div class="product-price">
+                        <span class="current-price">$195.00</span>
+                        <span class="original-price">$245.00</span>
+                    </div>
+                    <button class="buy-btn">Buy Now</button>
+                </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="product-card animate" style="animation-delay: 0.6s;">
+                <div class="product-image">
+                    <div style="font-size: 4rem; color: #D4AF37;">
+                        <i class="fas fa-feather-alt"></i>
+                    </div>
+                    <!-- No discount for this product -->
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Silk Vanilla</h3>
+                    <p class="product-description">Smooth vanilla with delicate orchid and cream notes.</p>
+                    <div class="product-price">
+                        <span class="current-price">$135.00</span>
+                    </div>
+                    <button class="buy-btn">Buy Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Shavoraplace. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Add animation to product cards when they come into view
+        document.addEventListener('DOMContentLoaded', function() {
+            // Trigger animations after a short delay to ensure they're visible
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.product-card');
+                cards.forEach((card, index) => {
+                    card.style.transitionDelay = `${index * 0.1}s`;
+                    card.classList.add('animate');
+                });
+            }, 500);
+
+            // Add hover effects to buttons
+            const buyButtons = document.querySelectorAll('.buy-btn');
+            buyButtons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-3px)';
+                    this.style.boxShadow = '0 8px 20px rgba(212, 175, 55, 0.6)';
+                });
+                
+                button.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+
+            // Add click effects to product cards
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (!e.target.classList.contains('buy-btn')) {
+                        this.style.transform = 'translateY(-15px)';
+                        setTimeout(() => {
+                            this.style.transform = this.matches(':hover') ? 'translateY(-10px)' : 'translateY(0)';
+                        }, 150);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
